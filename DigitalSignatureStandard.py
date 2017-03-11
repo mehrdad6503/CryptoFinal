@@ -83,19 +83,30 @@ def calculateW():
 
 	return calculateModularMultiplicativeInverse(int(s), int(q));
 
-# Begins the program by asking a user if they want to sign or verify a document
-purpose = input("\nEnter 'Verify' to verify a signature, or 'Sign' to sign a document:\t").upper();
-
-# Makes sure the user enters an appropriate value
-while (purpose != "VERIFY" and purpose != "SIGN"):
-
-	# Prompts the user for another input
-	purpose = input("\nInvalid entry!  Please enter 'Verify' to verify a signature, or 'Sign' to sign a document:\t").upper();
-
-# Checks if the user wants to verify or sign a document
-if (purpose == "VERIFY"):
+# Initiates verification of a signature
+def verifySignature():
 
 	# Calculates the value 'w'
 	w = calculateW();
+
+# Initiates the program
+def beginProgram():
+
+	# Asks the user if they want to sign or verify a document
+	purpose = input("\nEnter 'Verify' to verify a signature, or 'Sign' to sign a document:\t").upper();
+
+	# Makes sure the user enters an appropriate value
+	while (purpose != "VERIFY" and purpose != "SIGN"):
+
+		# Prompts the user for another input
+		purpose = input("\nInvalid entry!  Please enter 'Verify' to verify a signature, or 'Sign' to sign a document:\t").upper();
+
+	# Checks if the user wants to verify or sign a document
+	if (purpose == "VERIFY"):
+
+		# Begins verifying the signature
+		verifySignature();
+
+beginProgram();
 
 print();
