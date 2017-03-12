@@ -2,6 +2,9 @@
 * Project: Final Project - Digital Signature Standard
 * Created By: Alex Cadigan, Jacob Scott, Skyler Norgaard
 * Date Created: 3/11/2017
+*
+* This code is based off of code from these links:
+* http://www.java2s.com/Code/Java/Security/GenerateaDSAsignature.htm
 */
 
 // Imports:
