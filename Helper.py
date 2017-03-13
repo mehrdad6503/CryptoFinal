@@ -28,9 +28,6 @@ def isPositiveNumber(number):
 
 		return False
 
-'''
-Algorithm from: https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm
-'''
 # Runs the extended euclidean algorithm given two numbers
 def extendedEuclideanAlgorithm(number1, number2):
 
@@ -44,9 +41,6 @@ def extendedEuclideanAlgorithm(number1, number2):
 
 	return  number1, temporaryValue1;
 
-'''
-Algorithm from: http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
-'''
 # Computes the modular multiplicative inverse for the given number and modulo
 def calculateModularMultiplicativeInverse(number, modulo):
 
@@ -65,9 +59,6 @@ def calculateModularMultiplicativeInverse(number, modulo):
 		# Calculates the modular multiplicative inverse
 		return coefficient1 % modulo;
 
-'''
-Found this hash function from: https://docs.python.org/3.0/library/hashlib.html
-'''
 # Runs the Secure Hash Algorithm 1
 def secureHashAlgorithm1(message):
 
