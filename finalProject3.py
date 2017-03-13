@@ -10,6 +10,7 @@ import random
 import sympy
 import hashlib
 from math import gcd
+import gmpy2
 
 
 
@@ -37,9 +38,8 @@ def privatekey(q):
     x = random.randrange(1,q)
     return x
 
-#takes forever....
 def publickey(g,x,p):
-    return (g**x)%p
+    return gmpy2.powmod(g,x,p)
 
 #SIGNING
 
@@ -49,7 +49,7 @@ def kgen(q):
 
 #will also take forever...
 def rgen(g,k,p,q):
-    return ((g**k)%p)%q
+    return gmpy2.powmod(g,k,p)%q
 
 
 def sgen(message,k,x,r,q):
@@ -58,16 +58,58 @@ def sgen(message,k,x,r,q):
     hashval = int(hashlib.sha1(messageEncode).hexdigest(),16) #return int value of hash digest
     return (kinv*hashval+x*r)%q
 
+#returns a list of the signature, and then the key elements that generated that signature
 def signaturegen(g,p,q,message):
     x = privatekey(q)
+    y = publickey(g,x,p)
     k = kgen(q)
     r = rgen(g,k,p,q)
     s = sgen(message,k,x,r,q)
-    return r,s
+    results = [r,s,x,y,k]
+    return results
+  
+#rememebr s here is received s
+def wgen(s,q):
+    return modInv(s,q)%q
 
-x=privatekey(q)
-   
-#message = "Jacobott"
-#messageEncode = message.encode('utf-8') #encode the message so it can be hashed
-#hashval = int(hashlib.sha1(messageEncode).hexdigest(),16)
-#print(hashval)
+#would want to input the receied message
+def u1gen(message,w,q):
+    messageEncode = message.encode('utf-8') #encode the message so it can be hashed
+    hm = int(hashlib.sha1(messageEncode).hexdigest(),16) #return int value of hash digest
+    return (hm*w)%q
+
+def u2gen(r,w,q):
+    return (r*w)%q
+
+def vgen(g,y,u1,u2,p,q):
+    gu1 = gmpy2.powmod(g,u1,p)
+    yu2 = gmpy2.powmod(y,u2,p)
+    return ((gu1*yu2)%p)%q
+
+def verification(s,q,message,r,g,y,p):
+    w = wgen(s,q)
+    u1 = u1gen(message,w,q)
+    u2 = u2gen(r,w,q)
+    v = vgen(g,y,u1,u2,p,q)
+    if(v==r):
+        return "Message Verified"
+    else:
+        return "Message not verified... watch out!"
+    
+
+
+message = "Hi Cadigan"
+messagerec = "Hi Cafigan"
+signature = signaturegen(g,p,q,message)
+r = signature[0]
+s = signature[1]
+x = signature[2]
+y = signature[3]
+k = signature[4]
+w = wgen(s,q)
+u1 = u1gen(message,w,q)
+u2 = u2gen(r,w,q)
+v = vgen(g,y,u1,u2,p,q)
+
+print(verification(s,q,message,r,g,y,p))
+
